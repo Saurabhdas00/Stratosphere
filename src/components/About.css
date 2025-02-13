@@ -1,0 +1,104 @@
+.about {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Container for the scattered effect */
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 100px; /* Space between boxes */
+    padding: 20px;
+  }
+  
+  .box {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .box:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Different Sizes */
+  .big {
+    width: 80%;
+    flex-direction: row;
+  }
+  
+  .medium {
+    width: 60%;
+    flex-direction: row-reverse;
+  }
+  
+  .small {
+    width: 40%;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .box img {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .content p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Left and Right Alignments */
+  .left {
+    align-self: flex-start;
+  }
+  
+  .right {
+    align-self: flex-end;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .box {
+      width: 100%;
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .box img {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .content {
+      text-align: center;
+    }
+  }
+  
