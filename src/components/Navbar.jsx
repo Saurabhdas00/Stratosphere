@@ -7,12 +7,13 @@ import "./Navbar.css";
 
 const Navbar = ({ user, setUser }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown state
   const location = useLocation();
 
   useEffect(() => {
     // Track authentication state
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("Auth state changed in Navbar component:", user); // Log the user object
+      console.log("Auth state changed in Navbar:", user);
       setUser(user);
     });
 
@@ -22,6 +23,7 @@ const Navbar = ({ user, setUser }) => {
   const handleLogout = async () => {
     await signOut(auth);
     setUser(null);
+    setDropdownOpen(false); // Close dropdown after logout
   };
 
   return (
@@ -50,9 +52,20 @@ const Navbar = ({ user, setUser }) => {
           <li>
             <Link to="/Feedback" className={location.pathname === "/Feedback" ? "active" : ""}>Feedback</Link>
           </li>
-          <li>
+          <li className="user-menu">
             {user ? (
-              <FaUserCircle className="user-icon" onClick={handleLogout} title="Logout" />
+              <div className="user-dropdown">
+                <FaUserCircle
+                  className="user-icon"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  title="Account"
+                />
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    <button onClick={handleLogout}>Logout</button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link to="/Auth" className={location.pathname === "/Auth" ? "active" : ""}>Login</Link>
             )}
