@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { auth } from "./Firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { FaUserCircle } from "react-icons/fa"; // User Icon
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation(); // Get current route
+  const location = useLocation();
+
+  useEffect(() => {
+    // Track authentication state
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("Auth state changed in Navbar component:", user); // Log the user object
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, [setUser]);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+  };
 
   return (
     <div className="navbar">
@@ -31,6 +49,13 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/Feedback" className={location.pathname === "/Feedback" ? "active" : ""}>Feedback</Link>
+          </li>
+          <li>
+            {user ? (
+              <FaUserCircle className="user-icon" onClick={handleLogout} title="Logout" />
+            ) : (
+              <Link to="/Auth" className={location.pathname === "/Auth" ? "active" : ""}>Login</Link>
+            )}
           </li>
         </ul>
       </nav>
